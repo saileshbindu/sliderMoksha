@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixed Slider</title>
+<style>
+   body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+.sliderMain{
+  position: relative;
+}
+  .slider-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Set height to 100vh to fit viewport */
+    overflow: hidden;
+  }
+
+  .slider {
+    display: flex;
+    width: 300%; /* Adjust according to the number of slides */
+    transition: transform 0.5s ease;
+  }
+
+  .slide {
+    flex: 0 0 33.333%; /* Adjust according to the number of slides */
+    /* Other styles for your slides */
+  }
+
+  .slide img {
+    width: 100%;
+    height: auto;
+  }
+
+  .dots {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateX(-50%);
+    text-align: center;
+    background: black;
+    border-radius: 5px 0px 0px 5px;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #bbb;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    background-color: #333;
+  }
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+span {
+    cursor: pointer;
+    user-select: none;
+}
+
+</style>
+</head>
+<body>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span> 
+
+<div class="sliderMain">
+<div class="slider-container">
+  <div class="slider">
+    <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 1"></div>
+    <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 2"></div>
+    <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 3"></div>
+    <!-- Add more slides as needed -->
+  </div>
+  <div class="dots"></div>
+</div>
+</div>
+
+<!-- New Slider -->
+<div class="sliderMain">
+<div class="slider-container">
+  <div class="slider">
+    <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 1"></div>
+    <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 2"></div>
+    <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 3"></div>
+    <!-- Add more slides as needed -->
+  </div>
+  <div class="dots"></div>
+</div>
+</div>
+
+<!-- New Slider -->
+<div class="sliderMain">
+  <div class="slider-container">
+    <div class="slider">
+      <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 1"></div>
+      <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 2"></div>
+      <div class="slide"><img src="https://www.mokshamedia.co.in/dr-rela-institute-and-medical-centre/files/images/others/certificate-mockup.svg" alt="Slide 3"></div>
+      <!-- Add more slides as needed -->
+    </div>
+    <div class="dots"></div>
+  </div>
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const sliderMains = document.querySelectorAll('.sliderMain');
+
+  sliderMains.forEach(sliderMain => {
+    const slider = sliderMain.querySelector('.slider');
+    const slides = sliderMain.querySelectorAll('.slide');
+    const dotsContainer = sliderMain.querySelector('.dots');
+    let slideIndex = 0;
+    const slideWidth = slides[0].offsetWidth;
+
+    function updateSlider(direction = 'next') {
+      if (direction === 'next') {
+        slideIndex++;
+        if (slideIndex >= slides.length) {
+          slideIndex = 0;
+        }
+      } else {
+        slideIndex--;
+        if (slideIndex < 0) {
+          slideIndex = slides.length - 1;
+        }
+      }
+
+      const translateValue = -slideIndex * slideWidth;
+      slider.style.transform = `translateX(${translateValue}px)`;
+      updateDots();
+    }
+
+    function updateDots() {
+      dotsContainer.innerHTML = '';
+      slides.forEach((slide, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (index === slideIndex) {
+          dot.classList.add('active');
+        }
+        dot.addEventListener('click', () => {
+          const clickedIndex = Array.from(dotsContainer.children).indexOf(dot);
+          const direction = clickedIndex > slideIndex ? 'next' : 'prev';
+          updateSlider(direction);
+        });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    updateDots(); // Initialize dots on page load
+  });
+});
+
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+</script>
+
+</body>
+</html>
